@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Customer
+
+
 # Create your views here.
 
 # TODO: Create a function for each path created in customers/urls.py. Each will need a template as well.
@@ -13,3 +15,9 @@ def index(request):
     # Will also be useful in any function that needs
     print(user)
     return render(request, 'customers/index.html')
+
+
+# def pickup(request):
+#     user = request.user
+#     print(user)
+#     return render(request, 'customers/pick_up.html')
