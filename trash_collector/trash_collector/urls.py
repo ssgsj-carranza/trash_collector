@@ -26,5 +26,6 @@ urlpatterns = [
     path('customers/', include('customers.urls')),
     path('employees/', include('employees.urls')),
     # 'home' redirects a user to the appropriate index based on their auth group. Investigate views.py for more info
-    path('', views.group_redirect, name='home')
+    path('', views.group_redirect, name='home'),
+    path('pick_up/', include('pick_up.urls'))
 ]
