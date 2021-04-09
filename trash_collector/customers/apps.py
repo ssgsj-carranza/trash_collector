@@ -5,5 +5,4 @@ class CustomersConfig(AppConfig):
     name = 'customers'
 
 
-class PickUpConfig(AppConfig):
-    name = 'pick_up'
+
