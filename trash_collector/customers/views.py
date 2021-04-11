@@ -49,3 +49,14 @@ def update_customer(request, customer_id):
     context['form'] = form
     return render(request, 'customers/update_customer.html', context)
 # ask instructors about HTTP....()
+
+
+def info(request, customer_id):
+    customer = Customer.objects.get(id=customer_id)
+    # show billing
+    # show pickup?
+    context = {}
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse('customers:table of customers'))
+    else:
+        return render(request, 'customers/info.html', context)
