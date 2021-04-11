@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .models import Customer
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from .forms import Forms
 
 
 # Create your views here.
@@ -37,4 +38,14 @@ def suspend(request, customer_id):
     return render(request, 'customers/suspend.html', context)
 
 
-def 
+# pulls from forms.py customer is then able to use forms to update pick up date, suspend,etc.
+def update_customer(request, customer_id):
+    context = {}
+    specific_customer = get_object_or_404(Customer, id=customer_id)
+    form = Forms(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('customers:table of customers'))
+    context['form'] = form
+    return render(request, 'customers/update_customer.html', context)
+# ask instructors about HTTP....()
