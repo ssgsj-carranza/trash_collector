@@ -1,6 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .models import Customer
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -17,7 +19,22 @@ def index(request):
     return render(request, 'customers/index.html')
 
 
-# def pickup(request):
-#     user = request.user
-#     print(user)
-#     return render(request, 'customers/pick_up.html')
+def table_of_customers(request):
+    all_customers = Customer.objects.all()
+    context = {
+        'all_customers': all_customers
+    }
+    return render(request, 'customers/table.html', context)
+
+
+def suspend(request, customer_id):
+    context = {}
+    specific_customer = get_object_or_404(Customer, id=customer_id)
+    if request.method == 'POST':
+        specific_customer.delete()
+        return HttpResponseRedirect(reverse('customer:table'))
+    context['customer'] = specific_customer
+    return render(request, 'customers/suspend.html', context)
+
+
+def 
