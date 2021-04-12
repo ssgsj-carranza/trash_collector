@@ -11,13 +11,13 @@ from django.utils import timezone
 class Customer(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey('accounts.User', default=1, on_delete=models.CASCADE)
-    pickup_date = models.CharField(max_length=50)
+    pickup_date = models.CharField(max_length=50, default=0)
     one_time_pick_up = models.DateField(null=True, blank=True)
     suspend_start_date = models.DateField(null=True, blank=True)
     suspend_end_date = models.DateField(null=True, blank=True)
-    current_bill = models.FloatField()
-    pick_up_charge_amount = models.FloatField()
-    pick_up_zip = models.CharField(max_length=9)
+    current_bill = models.FloatField(default=0)
+    pick_up_charge_amount = models.FloatField(default=0)
+    pick_up_zip = models.CharField(max_length=9, default=53154)
 
     def __str__(self):
         return self.name
