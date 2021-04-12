@@ -8,7 +8,7 @@ from django.db import models
 class Employee(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey('accounts.User', default=0, on_delete=models.CASCADE)
-    route_zipcode = models.CharField(max_length=9)
+    route_zipcode = models.CharField(max_length=9, default=53154)
 
     def __str__(self):
         return self.name

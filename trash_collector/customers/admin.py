@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Customer, ChoiceDays
+from .models import Customer
 # Register your models here.
 
 
 admin.site.register(Customer)
-admin.site.register(ChoiceDays)
+# admin.site.register(ChoiceDays)

@@ -24,6 +24,16 @@ def create(request):
         new_employee = Employee(name=name, zip_code=zip_code)
         new_employee.user_id = user.id
         new_employee.save()
-        return HttpResponseRedirect(reverse('employess:index'))
+        return HttpResponseRedirect(reverse('employees:index'))
     else:
         return render(request, 'employees/create.html')
+
+
+def customer_in_zip(request):
+    user = request.user
+    employee = Employee.objects.get(user_id=user.id)
+    customer: object = apps.get_model('customer.Customer')
+    customers = customer.objects.all()
+    in_zip = []
+    for customer in customers:
+        if customer.pick_up_zip ==

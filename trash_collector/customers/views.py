@@ -3,13 +3,12 @@ from django.shortcuts import render
 from .models import Customer
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
-from .forms import Forms
+
 
 
 # Create your views here.
 
 # TODO: Create a function for each path created in customers/urls.py. Each will need a template as well.
-
 
 def index(request):
     # get the logged in user within any view function
@@ -38,17 +37,12 @@ def suspend(request, customer_id):
     return render(request, 'customers/suspend.html', context)
 
 
-# pulls from forms.py customer is then able to use forms to update pick up date, suspend,etc.
-def update_customer(request, customer_id):
-    context = {}
-    specific_customer = get_object_or_404(Customer, id=customer_id)
-    form = Forms(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('customers:table of customers'))
-    context['form'] = form
-    return render(request, 'customers/update_customer.html', context)
-# ask instructors about HTTP....()
+
+def change_pick_up(request):
+    user = request.user
+    pickup_date = 'Monday'
+
+
 
 
 def info(request, customer_id):
@@ -60,3 +54,18 @@ def info(request, customer_id):
         return HttpResponseRedirect(reverse('customers:table of customers'))
     else:
         return render(request, 'customers/info.html', context)
+
+
+def create(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        pick_up_day = request.POST.get('pick_up_date')
+        new_customer = Customer(name=name, pick_up_day=pick_up_day,
+                                user=request.user)
+        new_customer.save()
+        return HttpResponseRedirect(reverse('customer:index'))
+    else:
+        return render(request, 'customers/create.html')
+
+
+# customers_in_zip = customers.filter(address__zip_code__contains = employee.zip_code)
