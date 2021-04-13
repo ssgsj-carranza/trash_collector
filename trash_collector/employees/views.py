@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.apps import apps
 from django.urls import reverse
 from .models import Employee
+import datetime
+from ..customers.models import Customer
 
 
 # Create your views here.
@@ -30,11 +32,32 @@ def create(request):
         return render(request, 'employees/create.html')
 
 
-# def customer_in_zip(request):
-#     user = request.user
-#     employee = Employee.objects.get(user_id=user.id)
-#     customer: object = apps.get_model('customer.Customer')
-#     customers = customer.objects.all()
-#     in_zip = []
-#     for customer in customers:
-#         if customer.pick_up_zip ==
+def customer_in_zip(request):
+    customer: object = apps.get_model('customer.Customer')
+    customers = customer.objects.all()
+    in_zip = []
+    for customer in customers:
+        if customer.route_zipcode == request.POST.get('route_zipcode'):
+            in_zip.append(customer)
+    return HttpResponseRedirect(reverse('employees:index'))
+
+
+def today_pick_up():
+    today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+    today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+    today_customer = Customer.objects.get(date__range=(today_min, today_max))
+    return today_customer
+
+
+def extra_today_pick_up():
+    today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+    today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+    extra_customer = Customer.objects.get(date__range=(today_min, today_max))
+    return extra_customer
+
+def non_suspended_account():
+    customers = Customer.objects.all()
+    non_suspended = []
+    for customer in customers:
+        if Customer.suspend_start_date and Customer.suspend_end_date
+

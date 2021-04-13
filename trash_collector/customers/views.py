@@ -30,7 +30,7 @@ def suspend(request, customer_id):
     context = {}
     specific_customer = get_object_or_404(Customer, id=customer_id)
     if request.method == 'POST':
-        specific_customer.delete()
+        specific_customer.is_active = False
         return HttpResponseRedirect(reverse('customer:table'))
     context['customer'] = specific_customer
     return render(request, 'customers/suspend.html', context)
@@ -67,11 +67,11 @@ def info(request, customer_id):
     if request.method == 'POST':
         specific_customer.current_bill += request.POST.get('amount_charged')
     # show pickup?
-    context = {}
-    if request.method == 'POST':
+    # context = {}
+    # if request.method == 'POST':
         return HttpResponseRedirect(reverse('customers:table of customers'))
     else:
-        return render(request, 'customers/info.html', context)
+        return render(request, 'customers/info.html')
 
 
 def create(request):
