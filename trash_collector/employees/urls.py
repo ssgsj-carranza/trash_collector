@@ -11,5 +11,5 @@ urlpatterns = [
     path('customer_in_zip/', views.customer_in_zip, name='customer_in_zip'),
     path('today_pick_up/', views.today_pick_up, name='today_pick_up'),
     path('extra_today_pick_up/', views.extra_today_pick_up, name='extra_today_pick_up'),
-    path('non_suspended_accounts/', views.non_suspended_account, name='non_suspended_accounts')
+    # path('non_suspended_accounts/', views.non_suspended_account, name='non_suspended_accounts')
 ]

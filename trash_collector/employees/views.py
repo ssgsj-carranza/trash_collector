@@ -4,8 +4,8 @@ from django.apps import apps
 from django.urls import reverse
 from .models import Employee
 import datetime
-from ..customers.models import Customer
-
+# from ..customers.models import Customer
+from os import path
 
 # Create your views here.
 
@@ -14,7 +14,7 @@ from ..customers.models import Customer
 
 def index(request):
     # Get the Customer model from the other app, it can now be used to query the db
-    Customer = apps.get_model('customers.Customer')
+    customer = apps.get_model('customers.Customer')
     return render(request, 'employees/index.html')
 
 
@@ -40,7 +40,7 @@ def customer_in_zip(request):
         if customer.route_zipcode == request.POST.get('route_zipcode'):
             in_zip.append(customer)
     return HttpResponseRedirect(reverse('employees:index'))
-
+# customers_in_zip = customers.filter(address__zip_code__contains = employee.zip_code)
 
 def today_pick_up():
     today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
@@ -55,9 +55,12 @@ def extra_today_pick_up():
     extra_customer = Customer.objects.get(date__range=(today_min, today_max))
     return extra_customer
 
-def non_suspended_account():
-    customers = Customer.objects.all()
-    non_suspended = []
-    for customer in customers:
-        if Customer.suspend_start_date and Customer.suspend_end_date
+
+# https://realpython.com/transaction-management-with-django-1-6/
+# def non_suspended_account():
+#     customers = Customer.objects.all()
+#     non_suspended = []
+#     for customer in customers:
+#         if Customer.suspend_start_date and Customer.suspend_end_date
+
 

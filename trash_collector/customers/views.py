@@ -86,4 +86,4 @@ def create(request):
     else:
         return render(request, 'customers/create.html')
 
-# customers_in_zip = customers.filter(address__zip_code__contains = employee.zip_code)
+
