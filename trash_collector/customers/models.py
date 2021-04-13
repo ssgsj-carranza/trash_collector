@@ -10,7 +10,7 @@ from django.utils import timezone
 
 class Customer(models.Model):
     name = models.CharField(max_length=50)
-    user = models.ForeignKey('accounts.User', default=1, on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     pickup_date = models.CharField(max_length=50)
     # pub_date = models.DateTimeField('date published', default=0)
     one_time_pick_up = models.DateField(null=True, blank=True)
