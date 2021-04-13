@@ -62,6 +62,7 @@ def extra_today_pick_up():
 
 # https://realpython.com/transaction-management-with-django-1-6/
 # def non_suspended_account():
+#     Customer = apps.get_model('customers.Customer')
 #     customers = Customer.objects.all()
 #     non_suspended = []
 #     for customer in customers:
