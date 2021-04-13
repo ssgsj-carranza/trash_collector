@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
 
-
 # Create your views here.
 
 # TODO: Create a function for each path created in customers/urls.py. Each will need a template as well.
@@ -37,12 +36,29 @@ def suspend(request, customer_id):
     return render(request, 'customers/suspend.html', context)
 
 
-
 def change_pick_up(request):
     user = request.user
-    pickup_date = 'Monday'
+    specific_customer = get_object_or_404(Customer, user_id=user.id)
+    if request.method == 'POST':
+        specific_customer.pickup_date = request.POST.get('pickup_date')
+        specific_customer.save()
+        return HttpResponseRedirect(reverse('customers:index'))
+    else:
+        return render(request, 'customers.change_pick_up.html')
 
 
+def spec_pickup(request):
+    user = request.user
+    specific_customer = get_object_or_404(Customer, user_id=user.id)
+    if request.method == 'POST':
+        specific_customer.one_time_pick_up = request.POST.get('one_time_pick_up')
+        specific_customer.save()
+        return HttpResponseRedirect(reverse('customers:index'))
+    else:
+        return render(request, 'customers/one_time_pick_up.html')
+
+
+# https://docs.djangoproject.com/en/1.8/intro/tutorial02/
 
 
 def info(request, customer_id):
@@ -58,6 +74,7 @@ def info(request, customer_id):
 
 def create(request):
     if request.method == 'POST':
+        print(request)
         name = request.POST.get('name')
         pick_up_day = request.POST.get('pick_up_date')
         new_customer = Customer(name=name, pick_up_day=pick_up_day,
@@ -66,6 +83,5 @@ def create(request):
         return HttpResponseRedirect(reverse('customer:index'))
     else:
         return render(request, 'customers/create.html')
-
 
 # customers_in_zip = customers.filter(address__zip_code__contains = employee.zip_code)

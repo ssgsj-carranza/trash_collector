@@ -18,6 +18,7 @@ def index(request):
 
 def create(request):
     if request.method == 'POST':
+        print(request)
         user = request.user
         name = request.method.POST.get('name')
         zip_code = request.POST.get('zip code')
@@ -29,11 +30,11 @@ def create(request):
         return render(request, 'employees/create.html')
 
 
-def customer_in_zip(request):
-    user = request.user
-    employee = Employee.objects.get(user_id=user.id)
-    customer: object = apps.get_model('customer.Customer')
-    customers = customer.objects.all()
-    in_zip = []
-    for customer in customers:
-        if customer.pick_up_zip ==
+# def customer_in_zip(request):
+#     user = request.user
+#     employee = Employee.objects.get(user_id=user.id)
+#     customer: object = apps.get_model('customer.Customer')
+#     customers = customer.objects.all()
+#     in_zip = []
+#     for customer in customers:
+#         if customer.pick_up_zip ==
