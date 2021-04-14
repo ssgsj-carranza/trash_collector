@@ -40,7 +40,7 @@ def suspend(request):
     return render(request, 'customers/suspend.html')
 
 
-def pickup_date(request):
+def change_pickup_date(request):
     user = request.user
     specific_customer = Customer.objects.get(user_id=user.id)
     if request.method == 'POST':
@@ -80,12 +80,14 @@ def info(request):
 
 
 def create(request):
+    user = request.user
     if request.method == 'POST':
-        print(request)
         name = request.POST.get('name')
-        pick_up_day = request.POST.get('pick_up_date')
-        new_customer = Customer(name=name, pick_up_day=pick_up_day,
-                                user=request.user)
+        address = request.POST.get('address')
+        pick_up_zip = request.POST.get('pick_up_zip')
+        pickup_date = request.POST.get('pickup_date')
+        new_customer = Customer(name=name, pickup_date=pickup_date, pick_up_zip=pick_up_zip, address=address)
+        new_customer.user_id = user.id
         new_customer.save()
         return HttpResponseRedirect(reverse('customer:index'))
     else:

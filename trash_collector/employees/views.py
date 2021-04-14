@@ -57,24 +57,25 @@ def today_pick_up(request):
     return render(request, 'employees/today_pick_up.html', today_customer)
 
 
-def extra_today_pick_up():
+def extra_today_pick_up(request):
     Customer = apps.get_model('customers.Customer')
     today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
     today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
     extra_customer = Customer.objects.get(date__range=(today_min, today_max))
-    return extra_customer
+    # return extra_customer
+    return render(request, 'employees/today_pick_up.html', extra_customer)
 
 
-
- def non_suspended_account(request):
-     Customer = apps.get_model('customers.Customer')
-     all_customers = Customer.objects.all()
-     non_suspended = []
-     context = {'customers': non_suspended}
-     for customer in all_customers:
-         if Customer.customer_account_active is True:
+def non_suspended_account(request):
+    Customer = apps.get_model('customers.Customer')
+    all_customers = Customer.objects.all()
+    non_suspended = []
+    context = {'customers': non_suspended}
+    for customer in all_customers:
+        if Customer.customer_account_active is True:
             non_suspended.append(customer)
-     return render(request, 'employees/non_suspended_accounts.html',context)
+    return render(request, 'employees/non_suspended_accounts.html', context)
+
 
 # might need to work on function below, not quite sure it's correct
 def confirm_charge(request):
