@@ -1,8 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}{% block header %} Customer Home {% endblock %}{% endblock %}
+{% block title %}{% block header %} Employee Information {% endblock %}{% endblock %}
 
 {% block content %}
-<input type="text">
-
+  {% if user.is_authenticated %}
+    Hello Employee {{ user.username }}!
+    <form action="{% url 'employees:create' %}" method="post">
+    {% csrf_token %}
+        <label>Name:</label><input type="text" name="name" id="name"><br>
+        <label>user:</label><input type="text" name="user" id="user"><br>
+        <label>pick up date:</label><input type="text" name="pickup_date" id="pickup_date"><br>
+        <label>Extra pick up:</label><input type="text" name="one_time_pick_up" id="one_time_pick_up"><br>
+        <label>Suspend account:</label><input type="text" name="suspend_start_date" id="suspend_start_date"><br>
+        <label>End suspension:</label><input type="text" name="suspend_end_date" id="suspend_end_date"><br>
+        <label>Zip code:</label><input type="text" name="pick_up_zip" id="pick_up_zip"><br>
+        <input type="submit" value="Submit" />
+    </form>
+          {% else %}
+    <p>You are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
 {% endblock %}
+
+
+
+
+
+
+
