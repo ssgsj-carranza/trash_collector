@@ -8,6 +8,7 @@ import datetime
 from os import path
 from django.shortcuts import get_object_or_404
 
+
 # Create your views here.
 
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
@@ -60,6 +61,7 @@ def extra_today_pick_up():
     extra_customer = Customer.objects.get(date__range=(today_min, today_max))
     return extra_customer
 
+
 # https://realpython.com/transaction-management-with-django-1-6/
 # def non_suspended_account():
 #     Customer = apps.get_model('customers.Customer')
@@ -79,5 +81,3 @@ def confirm_charge(request):
         specific_customer.current_bill += request.POST.get('amount_charged')
         specific_customer.save()
     return render(request, 'employees/confirm_charge.html')
-
-

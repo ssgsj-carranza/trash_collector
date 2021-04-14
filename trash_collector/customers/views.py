@@ -66,6 +66,7 @@ def info(request):
     specific_customer = get_object_or_404(Customer, user_id=user.id)
     if request.method == 'POST':
         specific_customer.current_bill += request.POST.get('amount_charged')
+
     # show pickup?
     # context = {}
     # if request.method == 'POST':
