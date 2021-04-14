@@ -35,23 +35,26 @@ def create(request):
 
 
 def customer_in_zip(request):
-    customer: object = apps.get_model('customers.Customer')
-    customers = customer.objects.all()
+    user = request.user
+    Customer = apps.get_model('customers.Customer')
+    all_customers = Customer.objects.all()
     in_zip = []
-    for customer in customers:
-        if customer.route_zipcode == request.POST.get('route_zipcode'):
+    context = {'customer': in_zip}
+    for customer in all_customers:
+        if customer.pick_up_zip == Employee.route_zipcode:
             in_zip.append(customer)
-    return HttpResponseRedirect(reverse('employees:index'))
+    return render(request, 'employees/customer_in_zip.html', context)
 
 
 # customers_in_zip = customers.filter(address__zip_code__contains = employee.zip_code)
 
-def today_pick_up():
+def today_pick_up(request):
     Customer = apps.get_model('customers.Customer')
     today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
     today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
     today_customer = Customer.objects.get(date__range=(today_min, today_max))
-    return today_customer
+    # return today_customer
+    return render(request, 'employees/today_pick_up.html', today_customer)
 
 
 def extra_today_pick_up():
@@ -63,21 +66,23 @@ def extra_today_pick_up():
 
 
 # https://realpython.com/transaction-management-with-django-1-6/
-# def non_suspended_account():
-#     Customer = apps.get_model('customers.Customer')
-#     customers = Customer.objects.all()
-#     non_suspended = []
-#     for customer in customers:
-#         if Customer.suspend_start_date and Customer.suspend_end_date
-# non_suspended.append(customer)
-# return HttpResponseRedirect(reverse('employees:index'))
+ def non_suspended_account(request):
+     Customer = apps.get_model('customers.Customer')
+     all_customers = Customer.objects.all()
+     non_suspended = []
+     context = {'customers': non_suspended}
+     for customer in all_customers:
+         if Customer.customer_account_active is True:
+            non_suspended.append(customer)
+     return render(request, 'employees/non_suspended_accounts.html',context)
 
 # might need to work on function below, not quite sure it's correct
 def confirm_charge(request):
     user = request.user
     Customer = apps.get_model('customers.Customer')
-    specific_customer = get_object_or_404(Customer, user_id=user.id)
+    specific_customer = Customer.objects.get(user_id=user.id)
+    context = {'customer': specific_customer}
     if request.method == 'POST':
         specific_customer.current_bill += request.POST.get('amount_charged')
         specific_customer.save()
-    return render(request, 'employees/confirm_charge.html')
+    return render(request, 'employees/confirm_charge.html', context)

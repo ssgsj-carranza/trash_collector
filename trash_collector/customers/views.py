@@ -12,10 +12,14 @@ from django.shortcuts import get_object_or_404
 def index(request):
     # get the logged in user within any view function
     user = request.user
+    all_customers = Customer.objects.all()
+    context = {
+        'all_customers': all_customers
+    }
     # This will be useful while creating a customer to assign the logged in user as the user foreign key
     # Will also be useful in any function that needs
     print(user)
-    return render(request, 'customers/index.html')
+    return render(request, 'customers/index.html', context)
 
 
 def table_of_customers(request):
@@ -26,30 +30,30 @@ def table_of_customers(request):
     return render(request, 'customers/table.html', context)
 
 
-def suspend(request, customer_id):
-    context = {}
-    specific_customer = get_object_or_404(Customer, id=customer_id)
+def suspend(request):
+    user = request.user
+    specific_customer = Customer.objects.get(user_id=user.id)
     if request.method == 'POST':
         specific_customer.is_active = False
+        specific_customer.save()
         return HttpResponseRedirect(reverse('customer:index'))
-    context['customer'] = specific_customer
-    return render(request, 'customers/suspend.html', context)
+    return render(request, 'customers/suspend.html')
 
 
-def change_pick_up(request):
+def pickup_date(request):
     user = request.user
-    specific_customer = get_object_or_404(Customer, user_id=user.id)
+    specific_customer = Customer.objects.get(user_id=user.id)
     if request.method == 'POST':
         specific_customer.pickup_date = request.POST.get('pickup_date')
         specific_customer.save()
         return HttpResponseRedirect(reverse('customers:index'))
     else:
-        return render(request, 'customers.change_pick_up.html')
+        return render(request, 'customers.pickup_date.html')
 
 
 def spec_pickup(request):
     user = request.user
-    specific_customer = get_object_or_404(Customer, user_id=user.id)
+    specific_customer = Customer.objects.get(user_id=user.id)
     if request.method == 'POST':
         specific_customer.one_time_pick_up = request.POST.get('one_time_pick_up')
         specific_customer.save()
@@ -70,7 +74,7 @@ def info(request):
     # show pickup?
     # context = {}
     # if request.method == 'POST':
-        return HttpResponseRedirect(reverse('customers:table of customers'))
+        return HttpResponseRedirect(reverse('customers:index'))
     else:
         return render(request, 'customers/info.html')
 

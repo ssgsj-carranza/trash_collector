@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{% block header %}Change Pick-up Day {% endblock %}{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    Hello Customer {{ user.username }}!
+<form action="{% url 'customers:pickup_date' %}" method="POST">
+    {% csrf_token %}
+    <label>New pick up day:</label><input type="text" name="pickup_date" id="pickup_date"><br>
+    <input type="submit" value ="submit">
+</form>
+ {% else %}
+    <p>You are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
+
+
+{% endblock %}
