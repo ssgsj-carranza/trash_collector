@@ -31,7 +31,7 @@ def suspend(request, customer_id):
     specific_customer = get_object_or_404(Customer, id=customer_id)
     if request.method == 'POST':
         specific_customer.is_active = False
-        return HttpResponseRedirect(reverse('customer:table'))
+        return HttpResponseRedirect(reverse('customer:index'))
     context['customer'] = specific_customer
     return render(request, 'customers/suspend.html', context)
 
@@ -61,7 +61,7 @@ def spec_pickup(request):
 # https://docs.djangoproject.com/en/1.8/intro/tutorial02/
 
 
-def info(request, customer_id):
+def info(request):
     user = request.user
     specific_customer = get_object_or_404(Customer, user_id=user.id)
     if request.method == 'POST':

@@ -6,7 +6,7 @@ from .models import Employee
 import datetime
 # from ..customers.models import Customer
 from os import path
-
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -67,3 +67,17 @@ def extra_today_pick_up():
 #     non_suspended = []
 #     for customer in customers:
 #         if Customer.suspend_start_date and Customer.suspend_end_date
+# non_suspended.append(customer)
+# return HttpResponseRedirect(reverse('employees:index'))
+
+# might need to work on function below, not quite sure it's correct
+def confirm_charge(request):
+    user = request.user
+    Customer = apps.get_model('customers.Customer')
+    specific_customer = get_object_or_404(Customer, user_id=user.id)
+    if request.method == 'POST':
+        specific_customer.current_bill += request.POST.get('amount_charged')
+        specific_customer.save()
+    return render(request, 'employees/confirm_charge.html')
+
+
