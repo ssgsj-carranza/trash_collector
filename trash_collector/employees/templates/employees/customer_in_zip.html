@@ -1,18 +1,20 @@
-{% extends 'base.html' %}
-{% block title %}{% block header %}Today's routes {% endblock %}{% endblock %}
+<{% extends 'base.html' %}
+
+{% block title %}{% block header %}Customers in Route {% endblock %}{% endblock %}
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello Customer {{ user.username }}!
- {% else %}
-    <p>You are at the Customer index, but you are not logged in.</p>
+    Hello {{ user.username }} The following are your pick up routes
+{% for customer in customers %}
+<ul>
+    <li><h>Name: {{customer.name}}<br></h>
+        <h>address: {{customer.address}} <br></h>
+    </li>
+  </ul>
+{% endfor %}
+  {% else %}
+    <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
     <a href="{% url 'accounts:register' %}">Sign Up</a>
   {% endif %}
-<form action="{% url 'customers:change_pick_up' %}" method="POST">
-    {% csrf_token %}
-    <label>New pick up day:</label><input type="text" name="pickup_date" id="pickup_date"><br>
-    <input type="submit" value ="submit">
-</form>
-
 {% endblock %}

@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}{% block header %}Requested Extra Pick-ups {% endblock %}{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    Hello {{ user.username }} The following are today's extra pick-ups
+{% for customer in customers %}
+<ul>
+    <li><h>Name: {{customer.name}}<br></h>
+        <h>address: {{customer.address}} <br></h>
+    </li>
+  </ul>
+{% endfor %}
+  {% else %}
+    <p>You are at the employee index, but you are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
+{% endblock %}
