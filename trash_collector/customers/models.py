@@ -20,7 +20,7 @@ class Customer(models.Model):
     pick_up_charge_amount = models.IntegerField(default=0)
     pick_up_zip = models.CharField(max_length=9, default=53154)
     customer_account_active = models.BooleanField(default=True)
-    address = models.CharField(max_length=50, default=None)
+    address = models.CharField(max_length=50, default='123 sesame st')
 
     def __str__(self):
         return self.name
