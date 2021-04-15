@@ -48,7 +48,7 @@ def change_pickup_date(request):
         specific_customer.save()
         return HttpResponseRedirect(reverse('customers:index'))
     else:
-        return render(request, 'customers.pickup_date.html')
+        return render(request, 'customers.change_pickup_date.html')
 
 
 def spec_pickup(request):
@@ -67,7 +67,7 @@ def spec_pickup(request):
 
 def info(request):
     user = request.user
-    specific_customer = get_object_or_404(Customer, user_id=user.id)
+    specific_customer = Customer.objects.get(user_id=user.id)
     if request.method == 'POST':
         specific_customer.current_bill += request.POST.get('amount_charged')
 
@@ -76,7 +76,7 @@ def info(request):
     # if request.method == 'POST':
         return HttpResponseRedirect(reverse('customers:index'))
     else:
-        return render(request, 'customers/info.html')
+        return render(request, 'customers/index.html')
 
 
 def create(request):

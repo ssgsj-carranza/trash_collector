@@ -4,7 +4,7 @@
 {% block content %}
   {% if user.is_authenticated %}
     Hello Customer {{ user.username }}!
-<form action="{% url 'customers:pickup_date' %}" method="POST">
+<form action="{% url 'customers:change_pickup_date' %}" method="POST">
     {% csrf_token %}
     <label>New pick up day:</label><input type="text" name="pickup_date" id="pickup_date"><br>
     <input type="submit" value ="submit">
